@@ -18,11 +18,8 @@ steps:
     publishLocation: 'Container'
 - task: PowerShell@2
   inputs:
-    targetType: 'inline'
-    script: |
-      # Authenticate to Power BI
-      $cred = Get-Credential
-      Connect-PowerBIServiceAccount -Credential $cred
+    targetType: 'filePath'
+    filePath: './deploy.ps1'
 
       # Deploy the artifact
       Import-PowerBIArtifact -Path $(Build.ArtifactStagingDirectory)\COVID-19 US Tracking Sample.pbix -WorkspaceId '48a697cb-60f6-4efc-b80c-c1f0eedf3cb1'
