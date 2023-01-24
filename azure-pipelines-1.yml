@@ -22,23 +22,23 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 - stage: Deploy
-  jobs:
-  - job: Deploy
-    steps:
-    - script: |
-        # Install the Power BI command-line interface (CLI)
-        echo "Installing Power BI CLI..."
-        npm install -g powerbi-cli
-        pip install pytest pytest-azurepipelines
-        pip install msal
-        # Authenticate with Power BI using python script
-        echo "Authenticating with Power BI using python script..."
-        python powerbi1.py
+    jobs:
+    - job: Deploy
+      steps:
+      - script: |
+          # Install the Power BI command-line interface (CLI)
+          echo "Installing Power BI CLI..."
+          npm install -g powerbi-cli
+          pip install pytest pytest-azurepipelines
+          pip install msal
+          # Authenticate with Power BI using python script
+          echo "Authenticating with Power BI using python script..."
+          python powerbi1.py
 
-- task: maikvandergaag.maikvandergaag-power-bi-actions.PowerBIActions.PowerBIActions@5
-  displayName: 'Power BI Action: Publish'
-  inputs:
-    PowerBIServiceEndpoint: powerbi
-    WorkspaceName: 'My-Space'
-    PowerBIPath: '$(System.DefaultWorkingDirectory)'
+    - task: maikvandergaag.maikvandergaag-power-bi-actions.PowerBIActions.PowerBIActions@5
+      displayName: 'Power BI Action: Publish'
+      inputs:
+        PowerBIServiceEndpoint: powerbi
+        WorkspaceName: 'My-Space'
+        PowerBIPath: '$(System.DefaultWorkingDirectory)'
 
