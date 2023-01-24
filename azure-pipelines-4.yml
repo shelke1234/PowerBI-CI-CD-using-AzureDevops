@@ -1,0 +1,28 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '**.pbix'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+    OverWrite: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Authenticate to Power BI
+      $cred = Get-Credential
+      Connect-PowerBIServiceAccount -Credential $cred
+
+      # Deploy the artifact
+      Import-PowerBIArtifact -Path $(Build.ArtifactStagingDirectory)\COVID-19 US Tracking Sample.pbix -WorkspaceId '48a697cb-60f6-4efc-b80c-c1f0eedf3cb1'
