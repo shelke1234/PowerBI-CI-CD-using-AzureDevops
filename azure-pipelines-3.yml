@@ -15,18 +15,15 @@ jobs:
       targetType: 'inline'
       script: |
         # Import the Power BI PowerShell module
-        Import-Module -Name MicrosoftPowerBIMgmt
+        Install-Module -Name PackageManagement
         # update $userName and $password with your user credentials
         $userName = "dhananjay@cloudaeon.net"
         $password = "LIfe@@787898"
-
         # convert password to secure string
         $securePassword = ConvertTo-SecureString -String $password -AsPlainText -Force
-
         # create PSCredential object to serve as login credentials
         $credential = New-Object -TypeName System.Management.Automation.PSCredential `
         -ArgumentList $userName, $securePassword
-
         # log into Power BI unattended without any user interaction
         $user = Connect-PowerBIServiceAccount -Credential $credential
         $userName = $user.UserName 
@@ -40,7 +37,7 @@ jobs:
         Connect-PowerBI -Credential (Get-Credential)
 
         # Define the path to the Power BI report file (pbix)
-        $pbixFilePath = '$(System.DefaultWorkingDirectory)/report.pbix'
+        $pbixFilePath = '$(System.DefaultWorkingDirectory)/COVID-19 US Tracking Sample.pbix.pbix'
 
         # Define the name of the workspace
         $workspace = 'My-Space'
