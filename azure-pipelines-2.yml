@@ -1,36 +1,36 @@
 trigger:
-  - master
+- master
+
 pool:
-  vmImage: ubuntu-latest
-steps:
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: $(Build.SourcesDirectory)
-      Contents: '**.pbix'
-      TargetFolder: $(build.artifactstagingdirectory)
-      OverWrite: true
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: $(Build.ArtifactStagingDirectory)
-      ArtifactName: drop
-      publishLocation: Container
-  - stage: Deploy
-    jobs:
-      - job: Deploy
-        steps:
-          - script: |
-              # Install the Power BI command-line interface (CLI)
-              echo "Installing Power BI CLI..."
-              npm install -g powerbi-cli
-              pip install pytest pytest-azurepipelines
-              pip install msal
-              # Authenticate with Power BI using python script
-              echo "Authenticating with Power BI using python script..."
-              python powerbi1.py
-  - task: >-
-      maikvandergaag.maikvandergaag-power-bi-actions.PowerBIActions.PowerBIActions@5
-    displayName: 'Power BI Action: Publish'
-    inputs:
-      PowerBIServiceEndpoint: powerbi
-      WorkspaceName: My-Space
-      PowerBIPath: $(System.DefaultWorkingDirectory)
+  vmImage: 'ubuntu-latest'
+stages:
+- stage: Build
+  jobs:
+  - job: Build_Job
+    steps:
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourceDirectory)'
+        Contents: '**/*.pbix'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        OverWrite: true
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container' 
+- stage: Deploy
+  jobs:
+  - job: Deploy_Job
+    steps:
+    - task: AzurePowerBIServiceConnection@1
+      inputs:
+        azureSubscription: 'fcbaa624-ed53-476c-bf2f-76d1609690df'
+        powerBIWorkspace: 'My-Space'
+    - task: AzurePowerBIEmbed@1
+      inputs:
+        azureSubscription: 'fcbaa624-ed53-476c-bf2f-76d1609690df'
+        powerBIWorkspace: 'My-Space'
+        reportName: 'COVID-19 US Tracking Sample'
+        datasetName: 'COVID-19 US Tracking Sample'
+        action: 'Publish'
