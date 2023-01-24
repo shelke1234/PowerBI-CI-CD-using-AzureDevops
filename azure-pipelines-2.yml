@@ -21,6 +21,7 @@ steps:
     targetType: 'inline'
     script: |
       # Authenticate using the Azure AD PowerShell module
+      Install-Module -Name Az -AllowClobber -Scope CurrentUser
       Connect-AzAccount
 
       # Get the access token for Power BI REST API
