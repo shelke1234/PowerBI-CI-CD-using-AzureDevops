@@ -21,7 +21,7 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- steps: Deploy
+- stage: Deploy
   jobs:
   - job: Deploy
     steps:
