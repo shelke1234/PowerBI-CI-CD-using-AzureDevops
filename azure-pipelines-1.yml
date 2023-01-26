@@ -23,8 +23,8 @@ steps:
       # Deploy the report to the Power BI workspace
       $FilePath = "./PowerBI-CI-CD-using-AzureDevops/COVID-19 US Tracking Sample.pbix"
       $WorkspaceId = '48a697cb-60f6-4efc-b80c-c1f0eedf3cb1'
-      #$GroupId = 'your-group-id'
-      Import-PowerBIReport -Path $FilePath -WorkspaceId $WorkspaceId
+      $GroupId = '48a697cb-60f6-4efc-b80c-c1f0eedf3cb1'
+      Import-PowerBIReport -Path $FilePath -WorkspaceId $WorkspaceId -GroupId $GroupId
 
 - task: PublishBuildArtifacts@1
   inputs:
