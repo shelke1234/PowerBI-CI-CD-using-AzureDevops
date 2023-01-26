@@ -21,7 +21,7 @@ steps:
       $clientId = '281b83c6-b759-489d-87cd-e2822aa80e6d'
       $clientSecret = '812505c7-d2ae-4ec6-b4e7-930cb6cb279c'
       $tenantId = '261b775f-255a-40b3-8b29-3bf762602e84'
-      Connect-PowerBIServiceAccount -ClientId $clientId -ClientSecret $clientSecret -TenantId $tenantId
+      Connect-PowerBIServiceAccount -ServicePrincipal -ClientId $clientId -ClientSecret $clientSecret -TenantId $tenantId
 
       # Deploy the report to the Power BI workspace
       $FilePath = "./PowerBI-CI-CD-using-AzureDevops/COVID-19 US Tracking Sample.pbix"
