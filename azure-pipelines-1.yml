@@ -11,12 +11,15 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      # Install the Power BI PowerShell module
+      # Install the Power BI Management module
       Install-Module -Name MicrosoftPowerBIMgmt
+
+      # Import the Power BI Management module
+      Import-Module -Name MicrosoftPowerBIMgmt
 
       # Connect to Power BI using Service Principal
       $clientId = '281b83c6-b759-489d-87cd-e2822aa80e6d'
-      $clientSecret = 'jbL8Q~OXlG6CJjIdRV3qkLXT114tKIG0nsA0ibz3'
+      $clientSecret = '812505c7-d2ae-4ec6-b4e7-930cb6cb279c'
       $tenantId = '261b775f-255a-40b3-8b29-3bf762602e84'
       Connect-PowerBIServiceAccount -ClientId $clientId -ClientSecret $clientSecret -TenantId $tenantId
 
