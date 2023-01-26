@@ -12,7 +12,7 @@ steps:
     targetType: 'inline'
     script: |
       # Install the Power BI Management module
-      Install-Module -Name MicrosoftPowerBIMgmt
+      Install-Module -Name MicrosoftPowerBIMgmt -Force
 
       # Import the Power BI Management module
       Import-Module -Name MicrosoftPowerBIMgmt
@@ -28,6 +28,7 @@ steps:
       $WorkspaceId = '48a697cb-60f6-4efc-b80c-c1f0eedf3cb1'
       $GroupId = '48a697cb-60f6-4efc-b80c-c1f0eedf3cb1'
       Import-PowerBIReport -Path $FilePath -WorkspaceId $WorkspaceId -GroupId $GroupId
+    runAsAdministrator: true
 
 - task: PublishBuildArtifacts@1
   inputs:
